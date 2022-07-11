@@ -30,3 +30,20 @@ include conf/machine/include/soc-family.inc
 MACHINEOVERRIDES .= ":npcm8xx"
 
 require conf/machine/include/arm/armv8a/tune-cortexa35.inc
+
+IMAGE_CLASSES:append:npcm8xx = " image_types_phosphor_nuvoton_npcm8xx"
+KERNEL_CLASSES:append:npcm8xx = " fitimage_nuvoton_npcm8xx"
+
+PREFERRED_VERSION_trusted-firmware-a = "2.6.0"
+
+COMPATIBLE_MACHINE:npcm8xx = "npcm8xx"
+TFA_PLATFORM = "npcm845x"
+
+# Nuvoton prefers optee for BL32.
+TFA_SPD = "opteed"
+
+# Nuvoton prefers u-boot as BL33.
+TFA_UBOOT = "1"
+
+# Nuvoton prefers TFA default build is BL31.
+TFA_BUILD_TARGET = "bl31"
