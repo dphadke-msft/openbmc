@@ -6,10 +6,9 @@ PV = "1.0+git${SRCPV}"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
 
-inherit autotools pkgconfig
+inherit meson pkgconfig
 inherit systemd
 
-DEPENDS += "autoconf-archive-native"
 DEPENDS += "cli11"
 DEPENDS += "phosphor-mapper"
 DEPENDS += "systemd"
@@ -18,9 +17,13 @@ DEPENDS += "phosphor-ipmi-host"
 RRECOMMENDS:${PN} = "pam-ipmi"
 
 SRC_URI += "git://github.com/openbmc/phosphor-net-ipmid;branch=master;protocol=https"
-SRCREV = "7f9e3f09b4ffe2d40487588f6d6ebd2346169787"
+SRCREV = "67aaec2e06ff9c2bfd5900b9f07834fca9d009f2"
 
 S = "${WORKDIR}/git"
+
+EXTRA_OEMESON = " \
+        -Dtests=disabled \
+        "
 
 FILES:${PN} += " \
         ${systemd_system_unitdir}/${PN}@.service \

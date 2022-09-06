@@ -209,6 +209,7 @@ addtask do_deploy_source_date_epoch_setscene
 addtask do_deploy_source_date_epoch before do_configure after do_patch
 
 python create_source_date_epoch_stamp() {
+    # Version: 1
     source_date_epoch = oe.reproducible.get_source_date_epoch(d, d.getVar('S'))
     oe.reproducible.epochfile_write(source_date_epoch, d.getVar('SDE_FILE'), d)
 }
@@ -594,9 +595,9 @@ python () {
 
             for lic_exception in exceptions:
                 if ":" in lic_exception:
-                    lic_exception.split(":")[0]
+                    lic_exception = lic_exception.split(":")[1]
                 if lic_exception in oe.license.obsolete_license_list():
-                    bb.fatal("Invalid license %s used in INCOMPATIBLE_LICENSE_EXCEPTIONS" % lic_exception)
+                    bb.fatal("Obsolete license %s used in INCOMPATIBLE_LICENSE_EXCEPTIONS" % lic_exception)
 
             pkgs = d.getVar('PACKAGES').split()
             skipped_pkgs = {}

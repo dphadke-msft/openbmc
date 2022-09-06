@@ -39,7 +39,7 @@ setup_cargo_environment () {
     printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
 }
 
-include rust-common.inc
+inherit rust-target-config
 
 do_rust_setup_snapshot () {
     for installer in "${WORKDIR}/rust-snapshot-components/"*"/install.sh"; do
@@ -97,6 +97,10 @@ python do_configure() {
 
     config.set(target_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
     config.set(target_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
+
+    # [llvm]
+    config.add_section("llvm")
+    config.set("llvm", "static-libstdcpp", e(False))
 
     # [rust]
     config.add_section("rust")

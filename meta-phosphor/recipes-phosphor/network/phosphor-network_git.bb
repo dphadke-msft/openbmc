@@ -11,7 +11,7 @@ inherit python3native
 inherit systemd
 
 SRC_URI += "git://github.com/openbmc/phosphor-networkd;branch=master;protocol=https"
-SRCREV = "eb40f081f021253152c6aff12beef8f19d7ef02b"
+SRCREV = "8e61ca9dac86cfb669fa297a04436129dc446a70"
 
 DEPENDS += "systemd"
 DEPENDS += "sdbusplus ${PYTHON_PN}-sdbus++-native"
@@ -21,7 +21,7 @@ DEPENDS += "phosphor-logging"
 DEPENDS += "libnl"
 DEPENDS += "stdplus"
 
-PACKAGECONFIG ??= "uboot-env default-link-local-autoconf default-ipv6-accept-ra"
+PACKAGECONFIG ??= "uboot-env default-link-local-autoconf default-ipv6-accept-ra persist-mac"
 
 UBOOT_ENV_RDEPENDS = "${@d.getVar('PREFERRED_PROVIDER_u-boot-fw-utils', True) or 'u-boot-fw-utils'}"
 PACKAGECONFIG[uboot-env] = "-Duboot-env=true,-Duboot-env=false,,${UBOOT_ENV_RDEPENDS}"
@@ -30,6 +30,7 @@ PACKAGECONFIG[default-ipv6-accept-ra] = "-Ddefault-ipv6-accept-ra=true,-Ddefault
 PACKAGECONFIG[nic-ethtool] = "-Dnic-ethtool=true,-Dnic-ethtool=false,,"
 PACKAGECONFIG[sync-mac] = "-Dsync-mac=true,-Dsync-mac=false,nlohmann-json,"
 PACKAGECONFIG[hyp-nw-config] = "-Dhyp-nw-config=true, -Dhyp-nw-config=false,,"
+PACKAGECONFIG[persist-mac] = "-Dpersist-mac=true, -persist-mac=false,,"
 
 S = "${WORKDIR}/git"
 

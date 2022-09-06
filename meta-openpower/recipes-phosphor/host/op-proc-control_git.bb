@@ -11,7 +11,7 @@ inherit meson obmc-phosphor-utils pkgconfig
 inherit systemd
 
 SRC_URI += "git://github.com/openbmc/openpower-proc-control;branch=master;protocol=https"
-SRCREV = "d8be1ebda3961b442d60e75d50a49c3477c3edf2"
+SRCREV = "48a851643178f59ed1561296979168447b02d516"
 
 DEPENDS += " \
         phosphor-logging \
@@ -23,6 +23,13 @@ EXTRA_OEMESON += "-Dtests=disabled"
 
 # For libpdbg, provided by the pdbg package
 DEPENDS += "pdbg"
+
+PACKAGECONFIG ??= "${@bb.utils.filter('OBMC_MACHINE_FEATURES', 'phal op-fsi', d)}"
+PACKAGECONFIG[phal] = "-Dphal=enabled, -Dphal=disabled -Dp9=enabled, ipl pdata"
+PACKAGECONFIG[op-fsi] = "-Dopenfsi=enabled, -Dopenfsi=disabled"
+
+# By default all openpower systems support op-fsi
+PACKAGECONFIG = " op-fsi"
 
 TEMPLATE = "pcie-poweroff@.service"
 INSTANCE_FORMAT = "pcie-poweroff@{}.service"
